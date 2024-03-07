@@ -4,6 +4,8 @@
 # Proxy Tool
 
 Proxy Tool is a Python script that helps you retrieve, validate, and utilize proxies for web scraping or anonymous browsing.
+## ScreenShots:
+![image](https://github.com/pyroalww/pyroxy/assets/134533935/fdf44ece-8417-443a-a3e0-ddc51cd9e815)
 
 ## Features
 
