@@ -13,6 +13,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 def get_proxies(proxy_type='https'):
     url = f'https://www.proxy-list.download/api/v1/get?type={proxy_type}'
     try:
+        logging.info("Retrieving proxies...")
         response = requests.get(url)
         response.raise_for_status()  # Raise exception for 4xx or 5xx status codes
         proxies = response.text.split('\r\n')
@@ -24,10 +25,13 @@ def get_proxies(proxy_type='https'):
 
 def validate_proxy(proxy):
     try:
+        logging.info(f"Validating proxy: {proxy}")
         response = requests.get('https://httpbin.org/ip', proxies={'http': proxy, 'https': proxy}, timeout=10)
         response.raise_for_status()
+        logging.info(f"Proxy validation successful: {proxy}")
         return True
     except (ProxyError, ConnectTimeout, SSLError):
+        logging.warning(f"Proxy validation failed: {proxy}")
         return False
     except requests.exceptions.RequestException as e:
         logging.error("Failed to validate proxy:", e)
@@ -95,7 +99,7 @@ if __name__ == "__main__":
         for proxy in proxies:
             logging.info(proxy)
         
-        # Example usage: Make a request using a random proxy
+       # Random request for testing proxy
         url = 'https://httpbin.org/ip'
         headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36'}
         response = make_request(url, proxies, headers=headers)
